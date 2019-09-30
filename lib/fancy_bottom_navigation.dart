@@ -5,12 +5,12 @@ import 'package:fancy_bottom_navigation/paint/half_clipper.dart';
 import 'package:fancy_bottom_navigation/paint/half_painter.dart';
 import 'package:flutter/material.dart';
 
-const double CIRCLE_SIZE = 60;
-const double ARC_HEIGHT = 70;
-const double ARC_WIDTH = 90;
-const double CIRCLE_OUTLINE = 10;
-const double SHADOW_ALLOWANCE = 20;
-const double BAR_HEIGHT = 60;
+const double kCircleHeight = 60;
+const double kArcHeight = 70;
+const double kArcWidth = 90;
+const double kCircleOutline = 10;
+const double kShadowAllowance = 20;
+const double kBarHeight = 60;
 
 class FancyBottomNavigation extends StatefulWidget {
   FancyBottomNavigation(
@@ -19,6 +19,12 @@ class FancyBottomNavigation extends StatefulWidget {
       this.key,
       this.initialSelection = 0,
       this.circleColor,
+      this.circleHeight = kCircleHeight,
+      this.circleOutline = kCircleOutline,
+      this.arcHeight = kArcHeight,
+      this.arcWidth = kArcWidth,
+      this.shadowAllowance = kShadowAllowance,
+      this.barHeight = kBarHeight,
       this.activeIconColor,
       this.inactiveIconColor,
       this.textColor,
@@ -35,6 +41,13 @@ class FancyBottomNavigation extends StatefulWidget {
   final Color barBackgroundColor;
   final List<TabData> tabs;
   final int initialSelection;
+
+  final double circleHeight;
+  final double circleOutline;
+  final double arcHeight;
+  final double arcWidth;
+  final double shadowAllowance;
+  final double barHeight;
 
   final Key key;
 
@@ -117,7 +130,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         Container(
-          height: BAR_HEIGHT,
+          height: widget.barHeight,
           decoration: BoxDecoration(color: barBackgroundColor, boxShadow: [
             BoxShadow(
                 color: Colors.black12, offset: Offset(0, -1), blurRadius: 8)
@@ -144,10 +157,13 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
           ),
         ),
         Positioned.fill(
-          top: -(CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE) / 2,
+          top: -(widget.circleHeight +
+                  widget.circleOutline +
+                  widget.shadowAllowance) /
+              2,
           child: Container(
             child: AnimatedAlign(
-              duration: Duration(milliseconds: ANIM_DURATION),
+              duration: Duration(milliseconds: kAnimDuration),
               curve: Curves.easeOut,
               alignment: Alignment(_circleAlignX, 1),
               child: Padding(
@@ -160,17 +176,21 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                       alignment: Alignment.center,
                       children: <Widget>[
                         SizedBox(
-                          height:
-                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
-                          width:
-                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
+                          height: widget.circleHeight +
+                              widget.circleOutline +
+                              widget.shadowAllowance,
+                          width: widget.circleHeight +
+                              widget.circleOutline +
+                              widget.shadowAllowance,
                           child: ClipRect(
                               clipper: HalfClipper(),
                               child: Container(
                                 child: Center(
                                   child: Container(
-                                      width: CIRCLE_SIZE + CIRCLE_OUTLINE,
-                                      height: CIRCLE_SIZE + CIRCLE_OUTLINE,
+                                      width: widget.circleHeight +
+                                          widget.circleOutline,
+                                      height: widget.circleHeight +
+                                          widget.circleOutline,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           shape: BoxShape.circle,
@@ -183,14 +203,14 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                               )),
                         ),
                         SizedBox(
-                            height: ARC_HEIGHT,
-                            width: ARC_WIDTH,
+                            height: widget.arcHeight,
+                            width: widget.arcWidth,
                             child: CustomPaint(
                               painter: HalfPainter(barBackgroundColor),
                             )),
                         SizedBox(
-                          height: CIRCLE_SIZE,
-                          width: CIRCLE_SIZE,
+                          height: widget.circleHeight,
+                          width: widget.circleHeight,
                           child: Container(
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle, color: circleColor),
@@ -198,7 +218,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                               padding: const EdgeInsets.all(0.0),
                               child: AnimatedOpacity(
                                 duration:
-                                    Duration(milliseconds: ANIM_DURATION ~/ 5),
+                                    Duration(milliseconds: kAnimDuration ~/ 5),
                                 opacity: _circleIconAlpha,
                                 child: Icon(
                                   activeIcon,
@@ -223,12 +243,12 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   _initAnimationAndStart(double from, double to) {
     _circleIconAlpha = 0;
 
-    Future.delayed(Duration(milliseconds: ANIM_DURATION ~/ 5), () {
+    Future.delayed(Duration(milliseconds: kAnimDuration ~/ 5), () {
       setState(() {
         activeIcon = nextIcon;
       });
     }).then((_) {
-      Future.delayed(Duration(milliseconds: (ANIM_DURATION ~/ 5 * 3)), () {
+      Future.delayed(Duration(milliseconds: (kAnimDuration ~/ 5 * 3)), () {
         setState(() {
           _circleIconAlpha = 1;
         });
