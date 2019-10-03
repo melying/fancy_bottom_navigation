@@ -15,7 +15,7 @@ class TabItem extends StatelessWidget {
       @required this.iconData,
       @required this.title,
       @required this.callbackFunction,
-      @required this.textColor,
+      @required this.titleStyle,
       @required this.iconColor});
 
   final UniqueKey uniqueKey;
@@ -23,7 +23,7 @@ class TabItem extends StatelessWidget {
   final IconData iconData;
   final bool selected;
   final Function(UniqueKey uniqueKey) callbackFunction;
-  final Color textColor;
+  final TextStyle titleStyle;
   final Color iconColor;
 
   final double iconYAlign = kIconOn;
@@ -48,8 +48,7 @@ class TabItem extends StatelessWidget {
                     title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: textColor),
+                    style: titleStyle,
                   ),
                 )),
           ),

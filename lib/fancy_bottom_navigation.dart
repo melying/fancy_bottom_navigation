@@ -27,7 +27,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.barHeight = kBarHeight,
       this.activeIconColor,
       this.inactiveIconColor,
-      this.textColor,
+      this.titleStyle = const TextStyle(),
       this.barBackgroundColor})
       : assert(onTabChangedListener != null),
         assert(tabs != null),
@@ -37,7 +37,7 @@ class FancyBottomNavigation extends StatefulWidget {
   final Color circleColor;
   final Color activeIconColor;
   final Color inactiveIconColor;
-  final Color textColor;
+  final TextStyle titleStyle;
   final Color barBackgroundColor;
   final List<TabData> tabs;
   final int initialSelection;
@@ -68,7 +68,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   Color activeIconColor;
   Color inactiveIconColor;
   Color barBackgroundColor;
-  Color textColor;
+
+  TextStyle themedTextStyle;
 
   @override
   void didChangeDependencies() {
@@ -93,11 +94,15 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
             ? Color(0xFF212121)
             : Colors.white
         : widget.barBackgroundColor;
-    textColor = (widget.textColor == null)
+
+    Color textColor = (widget.titleStyle.color == null)
         ? (Theme.of(context).brightness == Brightness.dark)
             ? Colors.white
             : Colors.black54
-        : widget.textColor;
+        : widget.titleStyle.color;
+
+    themedTextStyle = widget.titleStyle.copyWith(color: textColor);
+
     inactiveIconColor = (widget.inactiveIconColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
             ? Colors.white
@@ -145,7 +150,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                     iconData: t.iconData,
                     title: t.title,
                     iconColor: inactiveIconColor,
-                    textColor: textColor,
+                    titleStyle: themedTextStyle,
                     callbackFunction: (uniqueKey) {
                       int selected = widget.tabs
                           .indexWhere((tabData) => tabData.key == uniqueKey);
