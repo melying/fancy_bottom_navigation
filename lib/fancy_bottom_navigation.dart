@@ -73,8 +73,6 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
-
     activeIcon = widget.tabs[currentSelected].iconData;
 
     circleColor = (widget.circleColor == null)
@@ -108,6 +106,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
             ? Colors.white
             : Theme.of(context).primaryColor
         : widget.inactiveIconColor;
+    super.didChangeDependencies();
   }
 
   @override
@@ -266,9 +265,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     _setSelected(widget.tabs[page].key);
     _initAnimationAndStart(_circleAlignX, 1);
 
-    setState(() {
-      currentSelected = page;
-    });
+    setState(() => currentSelected = page);
   }
 }
 
