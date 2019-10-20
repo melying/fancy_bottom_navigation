@@ -18,6 +18,7 @@ class TabItem extends StatelessWidget {
       @required this.callbackFunction,
       @required this.titleStyle,
       @required this.iconColor,
+      this.iconSize,
       this.gradient});
 
   final UniqueKey uniqueKey;
@@ -27,6 +28,7 @@ class TabItem extends StatelessWidget {
   final Function(UniqueKey uniqueKey) callbackFunction;
   final TextStyle titleStyle;
   final Color iconColor;
+  final double iconSize;
   final Gradient gradient;
 
   final double iconYAlign = kIconOn;
@@ -75,18 +77,15 @@ class TabItem extends StatelessWidget {
                       blendMode: BlendMode.srcIn,
                       shaderCallback: (Rect bounds) {
                         return ui.Gradient.linear(Offset(4.0, 24.0),
-                          Offset(24.0, 4.0), this.gradient.colors);
+                          Offset(24.0, 4.0), gradient.colors);
                       },
-                      child: Icon(iconData),
+                      child: Icon(iconData, size: iconSize),
                     )
                     : Icon(
                         iconData,
                         color: iconColor,
+                        size: iconSize,
                       ),
-                  //Icon(
-                  //  iconData,
-                  //  color: iconColor,
-                  //),
                   onPressed: () {
                     callbackFunction(uniqueKey);
                   },
