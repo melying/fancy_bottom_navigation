@@ -30,6 +30,8 @@ class FancyBottomNavigation extends StatefulWidget {
       this.titleStyle = const TextStyle(),
       this.gradient,
       this.barBackgroundColor,
+      this.inactiveIconSize,
+      this.activeIconSize,
       this.pageController})
       : assert(onTabChangedListener != null || pageController != null),
         assert(tabs != null),
@@ -52,6 +54,8 @@ class FancyBottomNavigation extends StatefulWidget {
   final double arcWidth;
   final double shadowAllowance;
   final double barHeight;
+  final double inactiveIconSize;
+  final double activeIconSize;
 
   final Key key;
 
@@ -73,6 +77,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   Color inactiveIconColor;
   Color barBackgroundColor;
   Gradient gradient;
+  double activeIconSize;
+  double inactiveIconSize;
   Color shadowColor;
   Function() _pageControllerListener;
 
@@ -113,7 +119,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
             ? Colors.white
             : Theme.of(context).primaryColor
         : widget.inactiveIconColor;
-    
+    activeIconSize = widget.activeIconSize;
+    inactiveIconSize = widget.inactiveIconSize;
     gradient = widget.gradient;
     shadowColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.white54
@@ -168,7 +175,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                     iconData: t.iconData,
                     title: t.title,
                     iconColor: inactiveIconColor,
-                    gradient: this.gradient,
+                    iconSize: inactiveIconSize,
+                    gradient: gradient,
                     titleStyle: themedTextStyle,
                     callbackFunction: (uniqueKey) {
                       int selected = widget.tabs
@@ -248,6 +256,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                                 child: Icon(
                                   activeIcon,
                                   color: activeIconColor,
+                                  size: activeIconSize,
                                 ),
                               ),
                             ),
