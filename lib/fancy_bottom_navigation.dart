@@ -288,7 +288,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     if (widget.pageController != null) {
       widget.pageController.removeListener(_pageControllerListener);
             var f = widget.pageController.animateToPage(page,
-          duration: Duration(milliseconds: ANIM_DURATION),
+          duration: Duration(milliseconds: kAnimDuration),
           curve: Curves.easeOut);
 
       f.then((v) {
@@ -298,20 +298,14 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
           widget.pageController.addListener(_pageControllerListener);
         }
       });
-
       _setSelected(widget.tabs[page].key);
       _initAnimationAndStart(0);
     } else {
       widget.onTabChangedListener(page);
-
       _setSelected(widget.tabs[page].key);
       _initAnimationAndStart(0);
-
-      setState(() {
-        currentSelected = page;
-      });
+      setState(() => currentSelected = page);
     }
-    //setState(() => currentSelected = page);
   }
   void setPageOffset(double page) {
     print("$page");
