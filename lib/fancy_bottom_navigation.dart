@@ -30,6 +30,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.titleStyle = const TextStyle(),
       this.gradient,
       this.barBackgroundColor,
+      this.shadowColor,
       this.inactiveIconSize,
       this.activeIconSize,
       this.pageController})
@@ -44,6 +45,7 @@ class FancyBottomNavigation extends StatefulWidget {
   final TextStyle titleStyle;
   final Gradient gradient;
   final Color barBackgroundColor;
+  final Color shadowColor;
   final List<TabData> tabs;
   final int initialSelection;
   final PageController pageController;
@@ -122,7 +124,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     activeIconSize = widget.activeIconSize;
     inactiveIconSize = widget.inactiveIconSize;
     gradient = widget.gradient;
-    shadowColor = Theme.of(context).brightness == Brightness.dark
+    shadowColor = widget.shadowColor ?? Theme.of(context).brightness == Brightness.dark
         ? Colors.white54
         : Colors.black12;
     
