@@ -51,7 +51,6 @@ class FancyBottomNavigation extends StatefulWidget {
   final int initialSelection;
   final int animDuration;
   final PageController pageController;
-
   final double circleHeight;
   final double circleOutline;
   final double arcHeight;
@@ -126,7 +125,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     activeIconSize = widget.activeIconSize;
     inactiveIconSize = widget.inactiveIconSize;
     gradient = widget.gradient;
-    shadowColor = widget.shadowColor ?? Theme.of(context).brightness == Brightness.dark
+    shadowColor = widget.shadowColor != null ? widget.shadowColor 
+      : Theme.of(context).brightness == Brightness.dark
         ? Colors.white54
         : Colors.black12;
     
