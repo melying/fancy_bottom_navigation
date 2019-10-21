@@ -19,6 +19,7 @@ class TabItem extends StatelessWidget {
       @required this.titleStyle,
       @required this.iconColor,
       this.iconSize,
+      this.animDuration,
       this.gradient});
 
   final UniqueKey uniqueKey;
@@ -29,6 +30,7 @@ class TabItem extends StatelessWidget {
   final TextStyle titleStyle;
   final Color iconColor;
   final double iconSize;
+  final int animDuration;
   final Gradient gradient;
 
   final double iconYAlign = kIconOn;
@@ -45,7 +47,7 @@ class TabItem extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             child: AnimatedAlign(
-                duration: Duration(milliseconds: kAnimDuration),
+                duration: Duration(milliseconds: animDuration),
                 alignment: Alignment(0, (selected) ? kTextOn : kTextOff),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -61,11 +63,11 @@ class TabItem extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             child: AnimatedAlign(
-              duration: Duration(milliseconds: kAnimDuration),
+              duration: Duration(milliseconds: animDuration),
               curve: Curves.easeIn,
               alignment: Alignment(0, (selected) ? kIconOff : kIconOn),
               child: AnimatedOpacity(
-                duration: Duration(milliseconds: kAnimDuration),
+                duration: Duration(milliseconds: animDuration),
                 opacity: (selected) ? kAlphaOff : kAlphaOn,
                 child: IconButton(
                   highlightColor: Colors.transparent,
