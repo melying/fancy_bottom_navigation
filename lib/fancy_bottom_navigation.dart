@@ -33,6 +33,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.shadowColor,
       this.inactiveIconSize,
       this.activeIconSize,
+      this.animDuration = 300,
       this.pageController})
       : assert(onTabChangedListener != null || pageController != null),
         assert(tabs != null),
@@ -48,6 +49,7 @@ class FancyBottomNavigation extends StatefulWidget {
   final Color shadowColor;
   final List<TabData> tabs;
   final int initialSelection;
+  final int animDuration;
   final PageController pageController;
 
   final double circleHeight;
@@ -179,6 +181,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                     iconColor: inactiveIconColor,
                     iconSize: inactiveIconSize,
                     gradient: gradient,
+                    animDuration: widget.animDuration,
                     titleStyle: themedTextStyle,
                     callbackFunction: (uniqueKey) {
                       int selected = widget.tabs
@@ -198,7 +201,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
               2,
           child: Container(
             child: AnimatedAlign(
-              duration: Duration(milliseconds: kAnimDuration),
+              duration: Duration(milliseconds: widget.animDuration),
               curve: Curves.easeOut,
               alignment: Alignment(_circleAlignX, 1),
               child: Padding(
@@ -253,7 +256,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                               padding: const EdgeInsets.all(0.0),
                               child: AnimatedOpacity(
                                 duration:
-                                    Duration(milliseconds: kAnimDuration ~/ 5),
+                                    Duration(milliseconds: widget.animDuration ~/ 5),
                                 opacity: _circleIconAlpha,
                                 child: Icon(
                                   activeIcon,
@@ -279,12 +282,12 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   _initAnimationAndStart(double initialAlphaValue) {
     _circleIconAlpha = initialAlphaValue;
 
-    Future.delayed(Duration(milliseconds: kAnimDuration ~/ 5), () {
+    Future.delayed(Duration(milliseconds: widget.animDuration ~/ 5), () {
       setState(() {
         activeIcon = nextIcon;
       });
     }).then((_) {
-      Future.delayed(Duration(milliseconds: (kAnimDuration ~/ 5 * 3)), () {
+      Future.delayed(Duration(milliseconds: (widget.animDuration ~/ 5 * 3)), () {
         setState(() {
           _circleIconAlpha = 1;
         });
