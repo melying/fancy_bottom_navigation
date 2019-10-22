@@ -65,7 +65,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     with TickerProviderStateMixin, RouteAware {
   IconData nextIcon = Icons.search;
   IconData activeIcon = Icons.search;
-  Widget activeIcon;
+  Widget activeIconWidget;
 
   int currentSelected = 0;
   double _circleAlignX = 0;
