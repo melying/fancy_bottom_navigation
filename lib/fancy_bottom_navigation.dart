@@ -31,6 +31,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.gradient,
       this.barBackgroundColor,
       this.shadowColor,
+      this.shadowBlur = 8.0,
       this.inactiveIconSize,
       this.activeIconSize,
       this.animDuration = 300,
@@ -47,6 +48,7 @@ class FancyBottomNavigation extends StatefulWidget {
   final Gradient gradient;
   final Color barBackgroundColor;
   final Color shadowColor;
+  final double shadowBlur;
   final List<TabData> tabs;
   final int initialSelection;
   final int animDuration;
@@ -167,7 +169,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
         Container(
           height: widget.barHeight,
           decoration: BoxDecoration(color: barBackgroundColor, boxShadow: [
-            BoxShadow(color: shadowColor, offset: Offset(0, -1), blurRadius: 8)
+            BoxShadow(color: shadowColor, offset: Offset(0, -1), blurRadius: widget.shadowBlur)
           ]),
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -332,9 +334,10 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 }
 
 class TabData {
-  TabData({@required this.iconData, @required this.title, this.onclick});
+  TabData({this.iconData, this.icon, @required this.title, this.onclick}) : assert(iconData != null || icon != null);
 
   IconData iconData;
+  Widget icon;
   String title;
   Function onclick;
   final UniqueKey key = UniqueKey();
