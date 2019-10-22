@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const double kIconOff = -3;
 const double kIconOn = 0;
-const double kTextOff = 3;
+const double kTextOff = 4;
 const double kTextOn = 1;
 const double kAlphaOff = 0;
 const double kAlphaOn = 1;
