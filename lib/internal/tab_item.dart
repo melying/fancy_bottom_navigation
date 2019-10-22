@@ -13,7 +13,8 @@ class TabItem extends StatelessWidget {
   TabItem(
       {@required this.uniqueKey,
       @required this.selected,
-      @required this.iconData,
+      this.iconData,
+      this.icon,
       @required this.title,
       @required this.callbackFunction,
       @required this.titleStyle,
@@ -25,6 +26,7 @@ class TabItem extends StatelessWidget {
   final UniqueKey uniqueKey;
   final String title;
   final IconData iconData;
+  final Widget icon;
   final bool selected;
   final Function(UniqueKey uniqueKey) callbackFunction;
   final TextStyle titleStyle;
@@ -81,9 +83,11 @@ class TabItem extends StatelessWidget {
                         return ui.Gradient.linear(Offset(4.0, 24.0),
                           Offset(24.0, 4.0), gradient.colors);
                       },
-                      child: Icon(iconData, size: iconSize),
+                      child: icon != null ? SizedBox(width: iconSize, height: iconSize, child: icon) 
+                        : Icon(iconData, size: iconSize),
                     )
-                    : Icon(
+                    : icon != null ? SizedBox(width: iconSize, height: iconSize, child: icon) 
+                      : Icon(
                         iconData,
                         color: iconColor,
                         size: iconSize,
