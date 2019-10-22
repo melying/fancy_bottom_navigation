@@ -5,13 +5,6 @@ import 'package:fancy_bottom_navigation/paint/half_clipper.dart';
 import 'package:fancy_bottom_navigation/paint/half_painter.dart';
 import 'package:flutter/material.dart';
 
-const double kCircleHeight = 60;
-const double kArcHeight = 70;
-const double kArcWidth = 90;
-const double kCircleOutline = 10;
-const double kShadowAllowance = 20;
-const double kBarHeight = 60;
-
 class FancyBottomNavigation extends StatefulWidget {
   FancyBottomNavigation(
       {@required this.tabs,
@@ -19,12 +12,12 @@ class FancyBottomNavigation extends StatefulWidget {
       this.key,
       this.initialSelection = 0,
       this.circleColor,
-      this.circleHeight = kCircleHeight,
-      this.circleOutline = kCircleOutline,
-      this.arcHeight = kArcHeight,
-      this.arcWidth = kArcWidth,
-      this.shadowAllowance = kShadowAllowance,
-      this.barHeight = kBarHeight,
+      this.circleHeight = 60,
+      this.circleOutline = 10,
+      this.arcHeight = 70,
+      this.arcWidth = 90,
+      this.shadowAllowance = 20,
+      this.barHeight = 60,
       this.activeIconColor,
       this.inactiveIconColor,
       this.titleStyle = const TextStyle(),
@@ -72,6 +65,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     with TickerProviderStateMixin, RouteAware {
   IconData nextIcon = Icons.search;
   IconData activeIcon = Icons.search;
+  Widget activeIcon;
 
   int currentSelected = 0;
   double _circleAlignX = 0;
@@ -92,6 +86,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   @override
   void didChangeDependencies() {
     activeIcon = widget.tabs[currentSelected].iconData;
+    activeIconWidget = widget.tabs[currentSelected].icon;
 
     circleColor = (widget.circleColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
@@ -179,6 +174,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                     uniqueKey: t.key,
                     selected: t.key == widget.tabs[currentSelected].key,
                     iconData: t.iconData,
+                    icon: t.icon,
                     title: t.title,
                     iconColor: inactiveIconColor,
                     iconSize: inactiveIconSize,
@@ -260,7 +256,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                                 duration:
                                     Duration(milliseconds: widget.animDuration ~/ 5),
                                 opacity: _circleIconAlpha,
-                                child: Icon(
+                                child: activeIconWidget != null ? SizedBox(width: activeIconSize, height: activeIconSize, child: activeIconWidget)
+                                : Icon(
                                   activeIcon,
                                   color: activeIconColor,
                                   size: activeIconSize,
