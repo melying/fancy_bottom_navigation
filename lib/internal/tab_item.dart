@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const double kIconOff = -3;
 const double kIconOn = 0;
-const double kTextOff = 4;
+const double kTextOff = 5;
 const double kTextOn = 1;
 const double kAlphaOff = 0;
 const double kAlphaOn = 1;
@@ -77,21 +77,27 @@ class TabItem extends StatelessWidget {
                   padding: EdgeInsets.all(0),
                   alignment: Alignment(0, 0),
                   icon: this.gradient != null
-                    ? ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (Rect bounds) {
-                        return ui.Gradient.linear(Offset(4.0, 24.0),
-                          Offset(24.0, 4.0), gradient.colors);
-                      },
-                      child: icon != null ? SizedBox(width: iconSize, height: iconSize, child: icon) 
-                        : Icon(iconData, size: iconSize),
-                    )
-                    : icon != null ? SizedBox(width: iconSize, height: iconSize, child: icon) 
-                      : Icon(
-                        iconData,
-                        color: iconColor,
-                        size: iconSize,
-                      ),
+                      ? ShaderMask(
+                          blendMode: BlendMode.srcIn,
+                          shaderCallback: (Rect bounds) {
+                            return ui.Gradient.linear(Offset(4.0, 24.0),
+                                Offset(24.0, 4.0), gradient.colors);
+                          },
+                          child: icon != null
+                              ? SizedBox(
+                                  width: iconSize,
+                                  height: iconSize,
+                                  child: icon)
+                              : Icon(iconData, size: iconSize),
+                        )
+                      : icon != null
+                          ? SizedBox(
+                              width: iconSize, height: iconSize, child: icon)
+                          : Icon(
+                              iconData,
+                              color: iconColor,
+                              size: iconSize,
+                            ),
                   onPressed: () {
                     callbackFunction(uniqueKey);
                   },

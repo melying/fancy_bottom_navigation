@@ -122,11 +122,12 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     activeIconSize = widget.activeIconSize;
     inactiveIconSize = widget.inactiveIconSize;
     gradient = widget.gradient;
-    shadowColor = widget.shadowColor != null ? widget.shadowColor 
-      : Theme.of(context).brightness == Brightness.dark
-        ? Colors.white54
-        : Colors.black12;
-    
+    shadowColor = widget.shadowColor != null
+        ? widget.shadowColor
+        : Theme.of(context).brightness == Brightness.dark
+            ? Colors.white54
+            : Colors.black12;
+
     super.didChangeDependencies();
   }
 
@@ -134,7 +135,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   void initState() {
     super.initState();
     _setSelected(widget.tabs[widget.initialSelection].key);
-    
+
     // add listener for page swipes
     if (this.widget.pageController != null) {
       _pageControllerListener =
@@ -157,124 +158,141 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      overflow: Overflow.visible,
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        Container(
-          height: widget.barHeight,
-          decoration: BoxDecoration(color: barBackgroundColor, boxShadow: [
-            BoxShadow(color: shadowColor, offset: Offset(0, -1), blurRadius: widget.shadowBlur)
-          ]),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: widget.tabs
-                .map((t) => TabItem(
-                    uniqueKey: t.key,
-                    selected: t.key == widget.tabs[currentSelected].key,
-                    iconData: t.iconData,
-                    icon: t.icon,
-                    title: t.title,
-                    iconColor: inactiveIconColor,
-                    iconSize: inactiveIconSize,
-                    gradient: gradient,
-                    animDuration: widget.animDuration,
-                    titleStyle: themedTextStyle,
-                    callbackFunction: (uniqueKey) {
-                      int selected = widget.tabs
-                          .indexWhere((tabData) => tabData.key == uniqueKey);
-                      //widget.onTabChangedListener(selected);
-                      //_setSelected(uniqueKey);
-                      //_initAnimationAndStart(_circleAlignX, 1);
-                      setPage(selected);
-                    }))
-                .toList(),
-          ),
-        ),
-        Positioned.fill(
-          top: -(widget.circleHeight +
-                  widget.circleOutline +
-                  widget.shadowAllowance) /
-              2,
-          child: Container(
-            child: AnimatedAlign(
-              duration: Duration(milliseconds: widget.animDuration),
-              curve: Curves.easeOut,
-              alignment: Alignment(_circleAlignX, 1),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 14),
-                child: FractionallySizedBox(
-                  widthFactor: 1 / widget.tabs.length,
-                  child: GestureDetector(
-                    onTap: widget.tabs[currentSelected].onclick,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: widget.circleHeight +
-                              widget.circleOutline +
-                              widget.shadowAllowance,
-                          width: widget.circleHeight +
-                              widget.circleOutline +
-                              widget.shadowAllowance,
-                          child: ClipRect(
-                              clipper: HalfClipper(),
-                              child: Container(
-                                child: Center(
+    return Container(
+      decoration: BoxDecoration(
+        color: barBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            offset: Offset(0, -1),
+            blurRadius: widget.shadowBlur,
+          )
+        ],
+      ),
+      child: SafeArea(
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            Container(
+              height: widget.barHeight,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: widget.tabs
+                    .map((t) => TabItem(
+                        uniqueKey: t.key,
+                        selected: t.key == widget.tabs[currentSelected].key,
+                        iconData: t.iconData,
+                        icon: t.icon,
+                        title: t.title,
+                        iconColor: inactiveIconColor,
+                        iconSize: inactiveIconSize,
+                        gradient: gradient,
+                        animDuration: widget.animDuration,
+                        titleStyle: themedTextStyle,
+                        callbackFunction: (uniqueKey) {
+                          int selected = widget.tabs.indexWhere(
+                              (tabData) => tabData.key == uniqueKey);
+                          //widget.onTabChangedListener(selected);
+                          //_setSelected(uniqueKey);
+                          //_initAnimationAndStart(_circleAlignX, 1);
+                          setPage(selected);
+                        }))
+                    .toList(),
+              ),
+            ),
+            Positioned.fill(
+              top: -(widget.circleHeight +
+                      widget.circleOutline +
+                      widget.shadowAllowance) /
+                  2,
+              child: Container(
+                child: AnimatedAlign(
+                  duration: Duration(milliseconds: widget.animDuration),
+                  curve: Curves.easeOut,
+                  alignment: Alignment(_circleAlignX, 1),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: FractionallySizedBox(
+                      widthFactor: 1 / widget.tabs.length,
+                      child: GestureDetector(
+                        onTap: widget.tabs[currentSelected].onclick,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              height: widget.circleHeight +
+                                  widget.circleOutline +
+                                  widget.shadowAllowance,
+                              width: widget.circleHeight +
+                                  widget.circleOutline +
+                                  widget.shadowAllowance,
+                              child: ClipRect(
+                                  clipper: HalfClipper(),
                                   child: Container(
-                                      width: widget.circleHeight +
-                                          widget.circleOutline,
-                                      height: widget.circleHeight +
-                                          widget.circleOutline,
-                                      decoration: BoxDecoration(
-                                          //color: Colors.white,
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: shadowColor,
-                                                blurRadius: 8)
-                                          ])),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                            height: widget.arcHeight,
-                            width: widget.arcWidth,
-                            child: CustomPaint(
-                              painter: HalfPainter(barBackgroundColor),
-                            )),
-                        SizedBox(
-                          height: widget.circleHeight - 5,
-                          width: widget.circleHeight - 5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, gradient: this.gradient, color: circleColor),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: AnimatedOpacity(
-                                duration:
-                                    Duration(milliseconds: widget.animDuration ~/ 5),
-                                opacity: _circleIconAlpha,
-                                child: activeIconWidget != null ? SizedBox(width: activeIconSize, height: activeIconSize, child: activeIconWidget)
-                                : Icon(
-                                  activeIcon,
-                                  color: activeIconColor,
-                                  size: activeIconSize,
+                                    child: Center(
+                                      child: Container(
+                                          width: widget.circleHeight +
+                                              widget.circleOutline,
+                                          height: widget.circleHeight +
+                                              widget.circleOutline,
+                                          decoration: BoxDecoration(
+                                              //color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: shadowColor,
+                                                    blurRadius: 8)
+                                              ])),
+                                    ),
+                                  )),
+                            ),
+                            SizedBox(
+                                height: widget.arcHeight,
+                                width: widget.arcWidth,
+                                child: CustomPaint(
+                                  painter: HalfPainter(barBackgroundColor),
+                                )),
+                            SizedBox(
+                              height: widget.circleHeight - 5,
+                              width: widget.circleHeight - 5,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: this.gradient,
+                                    color: circleColor),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: AnimatedOpacity(
+                                    duration: Duration(
+                                        milliseconds: widget.animDuration ~/ 5),
+                                    opacity: _circleIconAlpha,
+                                    child: activeIconWidget != null
+                                        ? SizedBox(
+                                            width: activeIconSize,
+                                            height: activeIconSize,
+                                            child: activeIconWidget)
+                                        : Icon(
+                                            activeIcon,
+                                            color: activeIconColor,
+                                            size: activeIconSize,
+                                          ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        )
-                      ],
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-        )
-      ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -286,7 +304,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
         activeIcon = nextIcon;
       });
     }).then((_) {
-      Future.delayed(Duration(milliseconds: (widget.animDuration ~/ 5 * 3)), () {
+      Future.delayed(Duration(milliseconds: (widget.animDuration ~/ 5 * 3)),
+          () {
         setState(() {
           _circleIconAlpha = 1;
         });
@@ -300,7 +319,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     //_initAnimationAndStart(_circleAlignX, 1);
     if (widget.pageController != null) {
       widget.pageController.removeListener(_pageControllerListener);
-            var f = widget.pageController.animateToPage(page,
+      var f = widget.pageController.animateToPage(page,
           duration: Duration(milliseconds: kAnimDuration),
           curve: Curves.easeOut);
 
@@ -320,6 +339,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
       setState(() => currentSelected = page);
     }
   }
+
   void setPageOffset(double page) {
     print("$page");
     _setSelected(widget.tabs[page.round()].key);
@@ -331,7 +351,8 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 }
 
 class TabData {
-  TabData({this.iconData, this.icon, @required this.title, this.onclick}) : assert(iconData != null || icon != null);
+  TabData({this.iconData, this.icon, @required this.title, this.onclick})
+      : assert(iconData != null || icon != null);
 
   IconData iconData;
   Widget icon;
